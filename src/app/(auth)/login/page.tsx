@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Card,
   CardHeader,
@@ -6,7 +7,14 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -39,14 +47,19 @@ export default function LoginComponent() {
       const res = await login(data).unwrap();
 
       if (res.success) {
-        toast.success(<ToastMessage title="Success" description="Login successful" />, {
-          autoClose: 3000,
-        });
+        toast.success(
+          <ToastMessage title="Success" description="Login successful" />,
+          {
+            autoClose: 3000,
+          }
+        );
         dispatch(setLoginInfo(res.data)); // Storing token
-        router.push("/"); // Redirect to home or dashboard
+        router.push("/dashboard"); // Redirect to home or dashboard
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      const errorMessage = error.data?.message || "Login failed. Please try again.";
+      const errorMessage =
+        error.data?.message || "Login failed. Please try again.";
       toast.error(<ToastMessage title="Error" description={errorMessage} />, {
         autoClose: 3000,
       });
@@ -58,7 +71,9 @@ export default function LoginComponent() {
       <Card>
         <CardHeader>
           <CardTitle>Login</CardTitle>
-          <CardDescription>Enter your email and password to log in.</CardDescription>
+          <CardDescription>
+            Enter your email and password to log in.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

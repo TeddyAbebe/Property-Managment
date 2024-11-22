@@ -1,7 +1,8 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -9,22 +10,22 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator
-} from '@/components/ui/command';
+  CommandSeparator,
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger
-} from '@/components/ui/popover';
-import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
-import { PlusCircledIcon } from '@radix-ui/react-icons';
-import { CheckIcon } from 'lucide-react';
-import { Options } from 'nuqs';
-import React from 'react';
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { PlusCircledIcon } from "@radix-ui/react-icons";
+import { CheckIcon } from "lucide-react";
+import { Options } from "nuqs";
+import React from "react";
 
 interface FilterOption {
-  value: string;
+  value: string | number;
   label: string;
   icon?: React.ComponentType<{ className?: string }>;
 }
@@ -35,7 +36,7 @@ interface FilterBoxProps {
   options: FilterOption[];
   setFilterValue: (
     value: string | ((old: string) => string | null) | null,
-    options?: Options<any> | undefined
+    options?: Options
   ) => Promise<URLSearchParams>;
   filterValue: string;
 }
@@ -45,25 +46,25 @@ export function DataTableFilterBox({
   title,
   options,
   setFilterValue,
-  filterValue
+  filterValue,
 }: FilterBoxProps) {
   const selectedValuesSet = React.useMemo(() => {
-    if (!filterValue) return new Set<string>();
-    const values = filterValue.split('.');
-    return new Set(values.filter((value) => value !== ''));
+    if (!filterValue || typeof filterValue !== "string")
+      return new Set<string>(); // Check if filterValue is not a string
+    const values = filterValue.split(".");
+    return new Set(values.filter((value) => value !== ""));
   }, [filterValue]);
 
   const handleSelect = (value: string) => {
-    const newSet = new Set(selectedValuesSet);
-    if (newSet.has(value)) {
-      newSet.delete(value);
+    if (value === filterValue) {
+      setFilterValue(null);
     } else {
-      newSet.add(value);
+      setFilterValue(value);
     }
-    setFilterValue(Array.from(newSet).join('.') || null);
   };
 
-  const resetFilter = () => setFilterValue(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const resetFilter = () => setFilterValue(null as any);
 
   return (
     <Popover>
@@ -95,8 +96,9 @@ export function DataTableFilterBox({
                       key={value}
                       className="rounded-sm px-1 font-normal"
                     >
-                      {options.find((option) => option.value === value)
-                        ?.label || value}
+                      {options.find(
+                        (option) => option.value.toString() === value
+                      )?.label || value}
                     </Badge>
                   ))
                 )}
@@ -113,15 +115,15 @@ export function DataTableFilterBox({
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
-                  key={option.value}
-                  onSelect={() => handleSelect(option.value)}
+                  key={option.value.toString()}
+                  onSelect={() => handleSelect(option.value.toString())} // Convert option.value to string
                 >
                   <div
                     className={cn(
-                      'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
-                      selectedValuesSet.has(option.value)
-                        ? 'bg-primary text-primary-foreground'
-                        : 'opacity-50 [&_svg]:invisible'
+                      "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                      selectedValuesSet.has(option.value.toString())
+                        ? "bg-primary text-primary-foreground"
+                        : "opacity-50 [&_svg]:invisible"
                     )}
                   >
                     <CheckIcon className="h-4 w-4" aria-hidden="true" />

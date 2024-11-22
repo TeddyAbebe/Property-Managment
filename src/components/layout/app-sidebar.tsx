@@ -208,7 +208,6 @@ export default function AppSidebar({
                           {session?.user?.name || ""}
                         </span>
                         <span className="truncate text-xs">
-                          {" "}
                           {session?.user?.email || ""}
                         </span>
                       </div>
