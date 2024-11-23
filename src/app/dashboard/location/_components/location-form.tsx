@@ -41,7 +41,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function BuildingForm() {
+export default function LocationForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,7 +61,7 @@ export default function BuildingForm() {
     <Card className="mx-auto w-full">
       <CardHeader>
         <CardTitle className="text-left text-2xl font-bold">
-          Building Information
+          Location Information
         </CardTitle>
       </CardHeader>
       <CardContent>

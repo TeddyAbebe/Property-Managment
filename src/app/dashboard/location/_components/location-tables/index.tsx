@@ -1,43 +1,43 @@
 "use client";
 
 import { DataTable } from "@/components/ui/table/data-table";
-import { DataTableFilterBox } from "@/components/ui/table/data-table-filter-box";
+// import { DataTableFilterBox } from "@/components/ui/table/data-table-filter-box";
 import { DataTableResetFilter } from "@/components/ui/table/data-table-reset-filter";
 import { DataTableSearch } from "@/components/ui/table/data-table-search";
 
 import { columns } from "./columns";
-import { useBuildingTableFilters } from "./use-location-table-filters";
-import { Building } from "@/constants/mock-api";
+import { useLocationTableFilters } from "./use-location-table-filters";
+import { Location } from "@/types";
 
-export const SITE_NAME_OPTIONS = [
-  { value: "Site A", label: "Site A" },
-  { value: "Site B", label: "Site B" },
-];
+// export const SITE_NAME_OPTIONS = [
+//   { value: "Site A", label: "Site A" },
+//   { value: "Site B", label: "Site B" },
+// ];
 
-export const FLOOR_OPTIONS = [
-  { value: "1-5", label: "1-5 Floors" },
-  { value: "6-10", label: "6-10 Floors" },
-  { value: "11-20", label: "11-20 Floors" },
-];
+// export const FLOOR_OPTIONS = [
+//   { value: "1-5", label: "1-5 Floors" },
+//   { value: "6-10", label: "6-10 Floors" },
+//   { value: "11-20", label: "11-20 Floors" },
+// ];
 
-export default function BuildingTable({
+export default function LocationTable({
   data,
   totalData,
 }: {
-  data: Building[];
+  data: Location[];
   totalData: number;
 }) {
   const {
-    siteNameFilter,
-    setSiteNameFilter,
-    totalFloorsFilter,
-    setTotalFloorsFilter,
+    // siteNameFilter,
+    // setSiteNameFilter,
+    // totalFloorsFilter,
+    // setTotalFloorsFilter,
     isAnyFilterActive,
     resetFilters,
     searchQuery,
     setPage,
     setSearchQuery,
-  } = useBuildingTableFilters();
+  } = useLocationTableFilters();
 
   return (
     <div className="space-y-4">
@@ -48,7 +48,7 @@ export default function BuildingTable({
           setSearchQuery={setSearchQuery}
           setPage={setPage}
         />
-        <DataTableFilterBox
+        {/* <DataTableFilterBox
           filterKey="siteName"
           title="Site Name"
           options={SITE_NAME_OPTIONS}
@@ -61,7 +61,7 @@ export default function BuildingTable({
           options={FLOOR_OPTIONS}
           setFilterValue={setTotalFloorsFilter}
           filterValue={totalFloorsFilter}
-        />
+        /> */}
 
         <DataTableResetFilter
           isFilterActive={isAnyFilterActive}

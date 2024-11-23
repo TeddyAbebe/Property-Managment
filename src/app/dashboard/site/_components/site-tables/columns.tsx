@@ -1,12 +1,10 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
-
+import { Site } from "@/constants/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-// import { Location } from "@/constants/mock-api";
-import { Location } from "@/types";
 
-export const columns: ColumnDef<Location>[] = [
+export const columns: ColumnDef<Site>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -27,16 +25,24 @@ export const columns: ColumnDef<Location>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "city",
+    accessorKey: "first_name",
     header: "NAME",
   },
   {
     accessorKey: "country",
-    header: "Country",
+    header: "COUNTRY",
   },
   {
-    accessorKey: "region",
-    header: "Region",
+    accessorKey: "email",
+    header: "EMAIL",
+  },
+  {
+    accessorKey: "job",
+    header: "COMPANY",
+  },
+  {
+    accessorKey: "gender",
+    header: "GENDER",
   },
   {
     id: "actions",

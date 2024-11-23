@@ -145,6 +145,11 @@ export const navItems: NavItem[] = [
 
     items: [
       {
+        title: "Locations",
+        url: "/dashboard/location",
+        icon: "userPen",
+      },
+      {
         title: "Site",
         url: "/dashboard/site",
         icon: "userPen",
@@ -201,3 +206,9 @@ export const navItems: NavItem[] = [
     items: [],
   },
 ];
+
+export interface Site {
+  name: string;
+  totalBuilding: number;
+  locationId: string;
+}

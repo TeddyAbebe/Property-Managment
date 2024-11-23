@@ -44,13 +44,16 @@ import {
   LogOut,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
 import { Breadcrumbs } from "../breadcrumbs";
 import { Icons } from "../icons";
 import SearchInput from "../search-input";
 import ThemeToggle from "./ThemeToggle/theme-toggle";
 import { UserNav } from "./user-nav";
+
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/features/auth/slices/login-slice";
 
 export const company = {
   name: "Acme Inc",
@@ -72,6 +75,9 @@ export default function AppSidebar({
     },
   };
   const pathname = usePathname();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   // Only render after first client-side mount
   React.useEffect(() => {
     setMounted(true);
@@ -80,6 +86,12 @@ export default function AppSidebar({
   if (!mounted) {
     return null; // or a loading skeleton
   }
+
+  const handleLogout = () => {
+    dispatch(logout());
+
+    router.push("/login");
+  };
 
   return (
     <SidebarProvider>
@@ -230,7 +242,7 @@ export default function AppSidebar({
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
                     <LogOut />
                     Log out
                   </DropdownMenuItem>

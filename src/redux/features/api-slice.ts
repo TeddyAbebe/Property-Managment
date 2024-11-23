@@ -1,43 +1,42 @@
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  createApi,
-  fetchBaseQuery,
-} from "@reduxjs/toolkit/query/react"
-//   import { logout } from "./auth-slice"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { RootState } from "@/redux/store";
 
+// Base query configuration
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:12000",
-})
+  prepareHeaders: (headers, { getState }) => {
+    // Get the token from the Redux store
+    const token = (getState() as RootState).login.value?.accessToken;
 
-//   const baseQueryWithReauth: BaseQueryFn<
-//     string | FetchArgs,
-//     unknown,
-//     FetchBaseQueryError
-//   > = async (args, api, extraOptions) => {
-//     let result = (await baseQuery(args, api, extraOptions)) as any
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
 
-//     const res =
-//       typeof result?.data?.ResultSet === "string"
-//         ? JSON.parse(result.data.ResultSet)
-//         : result.data.ResultSet
+    return headers;
+  },
+});
 
-//     // console.log(res)
-//     if (
-//       res.ExceptionError.MessageDetail === "LOGIN REQUIRED" ||
-//       res.ExceptionError.MessageDetail === "NO AvMET FOR YOU!" ||
-//       res.ExceptionError.MessageDetail === "RE-AUTH"
-//     ) {
-//       api.dispatch(logout())
-//       window.location.replace("/login")
-//     }
-
-//     return result
-//   }
-
+// API slice definition
 export const apiSlice = createApi({
+  reducerPath: "api",
   baseQuery,
   tagTypes: [],
-  endpoints: builder => ({}),
-})
+  endpoints: (builder) => ({
+    fetchLocations: builder.query({
+      query: (filters) => ({
+        url: "/location",
+        method: "GET",
+        params: filters,
+      }),
+    }),
+
+    fetchSites: builder.query({
+      query: () => ({
+        url: "/site",
+        method: "GET",
+      }),
+    }),
+  }),
+});
+
+export const { useFetchLocationsQuery, useFetchSitesQuery } = apiSlice;

@@ -4,14 +4,15 @@ import PageContainer from "@/components/layout/page-container";
 import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import LocationTable from "./location-tables";
-import { useFetchLocationsQuery } from "@/redux/features/api-slice";
+import SiteTable from "./site-tables";
+import { useFetchSitesQuery } from "@/redux/features/api-slice";
 import { useSearchParams } from "next/navigation";
 
-export default function LocationListingPage() {
+export default function SiteListingPage() {
   const searchParams = useSearchParams();
 
   // Get query parameters
@@ -27,7 +28,7 @@ export default function LocationListingPage() {
     ...(siteName && { siteNames: siteName }),
   };
 
-  const { data, error, isLoading } = useFetchLocationsQuery(filters);
+  const { data, error, isLoading } = useFetchSitesQuery(filters);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -37,26 +38,27 @@ export default function LocationListingPage() {
     return <div>Error fetching locations.</div>;
   }
 
-  const totalLocations = data?.data?.length || 0;
-  const location = data?.data || [];
+  const totalSites = data?.data?.length || 0;
+  const sites = data?.data || [];
 
   return (
     <PageContainer scrollable>
       <div className="space-y-4">
         <div className="flex items-start justify-between">
           <Heading
-            title={`Total Locations - ${totalLocations}`}
-            description="Manage locations."
+            title={`Total Sites - ${totalSites}`}
+            description="Manage Sites."
           />
+
           <Link
-            href={"/dashboard/location/new"}
+            href={"/dashboard/site/new"}
             className={cn(buttonVariants({ variant: "default" }))}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
           </Link>
         </div>
         <Separator />
-        <LocationTable data={location} totalData={totalLocations} />
+        <SiteTable data={sites} totalData={totalSites} />
       </div>
     </PageContainer>
   );

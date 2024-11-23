@@ -59,3 +59,14 @@ export type Building = {
   siteId: string;
   siteName: string;
 };
+
+export interface Location {
+  _id: string;
+  country: string;
+  region: string;
+  city: string;
+  createdBy: string;
+  createdAt: string; // ISO string
+  updatedAt: string; // ISO string
+  __v: number;
+}
